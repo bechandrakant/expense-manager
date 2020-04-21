@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Expenses from './Expenses'
+import AddExpense from './AddExpense'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    expenses: [
+      { id: 1, description: 'Bought Milk', price: 33 }
+    ]
+  }
+
+  addExpense = (expense) => {
+    expense.id = Math.random()
+    this.setState({
+      expenses: [...this.state.expenses, expense]
+    })
+  }
+
+  deleteExpense = (id) => {
+    const newExpenses = this.state.expenses.filter(expense => expense.id !== id)
+    this.setState({
+      expenses: newExpenses
+    })
+  }
+  
+  render() {
+    return (
+      <div className="App">
+        <h1>Expense Manager Application</h1>
+        <AddExpense addExpense={this.addExpense} />
+        <Expenses expenses={this.state.expenses} deleteExpense={this.deleteExpense}/>
+      </div>
+    );
+  }
 }
 
 export default App;
